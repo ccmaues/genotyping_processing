@@ -1,3 +1,4 @@
+awk '{seen[$1]++; if(seen[$1]==2){print}}'
 plink=/home/cmcuoco_sta/work/scripts_softwares/plink
 INPUT=$1
 ANCESTRY_LIST=$2
@@ -46,7 +47,5 @@ $plink --bfile 11_het_filtered --keep 13_sex_check_pass.txt --make-bed --out 14_
 $plink --bfile 14_sex_checked --genome --out 15_relatedness
 # 16. falling non-related samples
 awk '$10 < 0.2 {print $1,$2}' 15_relatedness.genome | sort | uniq > 16_unrelated.txt
-# 17. Related samples removal (uses PRUNING)
-$plink --bfile 14_sex_checked --keep 16_unrelated.txt --make-bed --out 17_unrelated
 # 18. Final files generation
 $plink --bfile 5_final_SNV_filter --keep 16_unrelated.txt --make-bed --out $OUTPUT
