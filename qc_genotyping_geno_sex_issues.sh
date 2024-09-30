@@ -1,3 +1,4 @@
+awk '{seen[$1]++; if(seen[$1]==2){print}}'
 plink=/home/cmcuoco_sta/work/scripts_softwares/plink
 INPUT=$1
 ANCESTRY_LIST=$2
@@ -38,7 +39,7 @@ $plink --bfile 8_pruned --keep 10_het.valid.sample --make-bed --out 11_het_filte
 $plink --bfile 11_het_filtered --check-sex --out 12_check_sex
 # 13. flagginf samples that passed sex-check
 awk '$3==0{print $1, $2}' 12_check_sex.sexcheck > 13_sex_check_pass_ambiguous.txt
-awk '$3!=0{print $1, $2}' 12_check_sex.sexcheck | grep OK > 13_sex_check_pass_with_sex.txt
+grep OK 12_check_sex.sexcheck | awk '$3!=0{print $1, $2}' - > 13_sex_check_pass_with_sex.txt
 cat 13_sex_check_pass_ambiguous.txt 13_sex_check_pass_with_sex.txt > 13_sex_check_pass.txt
 # 14. Sample removal F > 0.8 males, F < 0.2 and XXX ambiguous (uses PRUNING)
 $plink --bfile 11_het_filtered --keep 13_sex_check_pass.txt --make-bed --out 14_sex_checked
