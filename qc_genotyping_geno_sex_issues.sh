@@ -1,4 +1,3 @@
-awk '{seen[$1]++; if(seen[$1]==2){print}}'
 plink=/home/cmcuoco_sta/work/scripts_softwares/plink
 INPUT=$1
 ANCESTRY_LIST=$2
