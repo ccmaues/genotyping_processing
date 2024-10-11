@@ -9,6 +9,8 @@ $plink --bfile $INPUT --keep $ANCESTRY_LIST --make-bed --out 0_ancestry_separati
 ## SNVs FILTERs
 # 1. SNP: MAF 0.01, GENO 0.15, and snps-only just-acgt
 $plink --bfile 0_ancestry_separation --geno 0.15 --maf 0.01 --snps-only just-acgt --make-bed --out 1_MAF_GENO
+# geno 0.05 (last file from merge)
+
 # 2. Join samples again
 $plink --bfile 1_MAF_GENO --hwe 1e-6 --make-bed --out 2_HWE
 # 3. Flag non-ambiguous SNP
